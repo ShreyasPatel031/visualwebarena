@@ -343,8 +343,7 @@ class MultimodalCoTPromptConstructor(CoTPromptConstructor):
                     example_img = Image.open(z)
                     message.append(
                         {
-                            "role": "system",
-                            "name": "example_user",
+                            "role": "user",
                             "content": [
                                 {"type": "text", "text": x},
                                 {
@@ -362,8 +361,7 @@ class MultimodalCoTPromptConstructor(CoTPromptConstructor):
                     )
                     message.append(
                         {
-                            "role": "system",
-                            "name": "example_assistant",
+                            "role": "assistant",
                             "content": [{"type": "text", "text": y}],
                         }
                     )
