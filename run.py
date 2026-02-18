@@ -529,7 +529,8 @@ if __name__ == "__main__":
         test_file_list.append(os.path.join(test_config_base_dir, f"{i}.json"))
     test_file_list = get_unfinished(test_file_list, args.result_dir)
     print(f"Total {len(test_file_list)} tasks left")
-    args.render = False
+    # Don't override render flag - respect --render if user wants to see browser
+    # args.render is set by --render flag, don't override it
     args.render_screenshot = True
     args.save_trace_enabled = True
 
