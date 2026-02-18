@@ -87,6 +87,21 @@ def generate_from_gemini_completion(
         safety_settings=safety_config,
     )
     answer = response.text
+    
+    # Track usage for cost calculation (Gemini uses characters for billing)
+    # Count characters in input and output
+    input_chars = sum(len(str(p)) if isinstance(p, str) else 0 for p in prompt)
+    output_chars = len(answer) if answer else 0
+    
+    # Store in a file for cost tracking
+    import os
+    cost_log = os.environ.get("GEMINI_COST_LOG", "/tmp/gemini_cost.log")
+    try:
+        with open(cost_log, "a") as f:
+            f.write(f"{input_chars},{output_chars}\n")
+    except Exception:
+        pass  # Silently fail if can't write to log
+    
     return answer
 
 

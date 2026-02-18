@@ -11,8 +11,10 @@ docker run --name $CONTAINER_NAME -p 7770:80 -d shopping_final_0712
 # wait ~1 min for all services to start
 sleep 60
 
-docker exec $CONTAINER_NAME /var/www/magento2/bin/magento setup:store-config:set --base-url="http://localhost:7770" # no trailing slash
-docker exec $CONTAINER_NAME mysql -u magentouser -pMyPassword magentodb -e  'UPDATE core_config_data SET value="http://localhost:7770/" WHERE path = "web/secure/base_url";'
+# Get VM IP from environment or use default
+VM_IP="${VM_IP:-34.66.226.4}"
+docker exec $CONTAINER_NAME /var/www/magento2/bin/magento setup:store-config:set --base-url="http://${VM_IP}:7770" # no trailing slash
+docker exec $CONTAINER_NAME mysql -u magentouser -pMyPassword magentodb -e  "UPDATE core_config_data SET value='http://${VM_IP}:7770/' WHERE path = 'web/secure/base_url';"
 docker exec $CONTAINER_NAME /var/www/magento2/bin/magento cache:flush
 
 docker exec $CONTAINER_NAME /var/www/magento2/bin/magento indexer:set-mode schedule catalogrule_product
