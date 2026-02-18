@@ -254,8 +254,12 @@ def generate_from_openai_chat_completion(
         raise ValueError(
             "OPENAI_API_KEY environment variable must be set when using OpenAI API."
         )
-    # Use max_tokens for all models (max_completion_tokens is not supported by OpenAI API)
-    completion_kwarg = {"max_tokens": max_tokens}
+    # GPT-5.x uses max_completion_tokens instead of max_tokens
+    completion_kwarg = (
+        {"max_completion_tokens": max_tokens}
+        if "gpt-5" in model
+        else {"max_tokens": max_tokens}
+    )
     response = client.chat.completions.create(
         model=model,
         messages=messages,
