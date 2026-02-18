@@ -12,6 +12,9 @@ from vertexai.preview.generative_models import (
     Image,
 )
 
+# Note: Model name may need to be updated based on your Vertex AI setup
+# Try: gemini-pro-vision, gemini-1.5-pro, gemini-1.5-flash, or gemini-pro
+# You may need to enable Generative AI API in your GCP project
 model = GenerativeModel("gemini-pro-vision")
 
 
